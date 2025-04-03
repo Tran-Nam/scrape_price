@@ -40,14 +40,14 @@ def get_car_brand(title):
         "HONDA",
         "MAZDA", 
         "KIA", 
+        "SUZUKI", 
+        "VINFAST",
+        "NISSAN", 
         "FORD", 
+        "MITSUBISHI", 
+        "PEUGEOT", 
         "BMW", 
         "MERCEDES", 
-        "MITSUBISHI", 
-        "NISSAN", 
-        "PEUGEOT", 
-        "SUZUKI", 
-        "VINFAST"
     ]
     for brand in accepted_brand:
         if brand in title:
