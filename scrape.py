@@ -40,19 +40,43 @@ def get_car_brand(title):
         "HONDA",
         "MAZDA", 
         "KIA", 
-        "SUZUKI", 
-        "VINFAST",
-        "NISSAN", 
         "FORD", 
-        "MITSUBISHI", 
-        "PEUGEOT", 
         "BMW", 
         "MERCEDES", 
+        "MITSUBISHI", 
+        "NISSAN", 
+        "PEUGEOT", 
+        "SUZUKI", 
+        "VINFAST"
     ]
     for brand in accepted_brand:
         if brand in title:
             return brand 
     return None
+
+def get_time(title):
+    chunks = title.split()
+    try:
+        idx = chunks.index("THÁNG")
+        return chunks[idx + 1].split('(')[0]
+    except ValueError:
+        return None
+    
+def convert_to_dict(values):
+    d = {}
+    for v in values:
+        d[v[0]] = v[1]
+    return d
+
+def swap_price_and_location(data):
+    new_data = []
+    n_cols = len(data[0])
+    if n_cols <= 2:
+        return data 
+    for v in data:
+        v1 = v[0:1] + v[2:] + v[1:2]
+        new_data.append(v1)
+    return new_data
 
 url = 'https://bonbanh.com/gia-xe-oto'
 soup = get_soup(url)
@@ -96,8 +120,12 @@ for c_brand in soup.find_all('h3'):
                 except:
                     pass
 
+            t = get_time(title)
+            if not t:
+                continue
+            header[1] += f'\n{t}'
             data = [header] + values 
             car_brand = get_car_brand(title=title)
             if car_brand is None:
                 continue
-            write(title=car_brand, data=data)
+            write(title=car_brand, data=swap_price_and_location(data))
